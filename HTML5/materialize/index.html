@@ -1,3 +1,6 @@
+
+#f8f8f8
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -7,6 +10,16 @@
 		<link type="text/css" href="css/materialize.min.css" rel="stylesheet" media="screen,projection">
 		<!--Let browser know website is optimized for mobile-->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- Titulo que se ve en la pestania -->
+		<title>Inicio</title>
+
+		<style>
+
+			table.striped > tbody > tr:nth-child(odd) {
+				background-color: rgba(179, 204, 139, 0.292);
+			}
+
+		</style>	
 	</head>
 
 	<body>
@@ -17,28 +30,36 @@
 				<a class="brand-logo" href="#">Logo</a>
 				<a class="sidenav-trigger" data-target="mobile-demo" href="#"><i class="material-icons">menu</i></a>
 				<ul class="right hide-on-med-and-down" id="nav-mobile">
-					<li><a href="sass.html">Sass</a></li>
-					<li><a href="badges.html">Components</a></li>
+					<li><a href="index.html">index</a></li>
+					<li><a href="contactenos.html">contactenos</a></li>
 					<li><a href="collapsible.html">JavaScript</a></li>
 				</ul>
 			</div>
 			<!-- Menu dimanico  -->
 			<div class="nav-content green lighten-2">
 				<ul class="tabs tabs-transparent">
-					<li class="tab"><a href="#test1">Grid</a></li>
-					<li class="tab"><a class="active" href="#test2">Acciones</a></li>
-					<li class="tab"><a href="#test3">Test 3</a></li>
+					<li class="tab">	
+						<a href="#test1">Grid</a>
+					</li>
+					<li class="tab">
+						<a href="#test2">Acciones</a>
+					</li>
+					<li class="tab">
+						<a class="active" href="#test3">Test 3</a>
+					</li>
 					<li class="tab">
 						<a href="#test4" class="blue-text text-darken-2">Test 4</a>
 					</li>
-					<li class="tab blue lighten-2"><a href="#test5">Test 5</a></li>
+					<li class="tab blue lighten-2">
+						<a href="#test5">Test 5</a>
+					</li>
 				</ul>
 			</div>
 		</nav>
 			
 		<ul class="sidenav" id="mobile-demo">
-			<li><a href="sass.html">Sass</a></li>
-			<li><a href="badges.html">Components</a></li>
+			<li><a href="index.html">index</a></li>
+			<li><a href="contactenos.html">contactenos</a></li>
 			<li><a href="collapsible.html">JavaScript</a></li>
 		</ul>	
 		<!-- DIV 1 -->		
@@ -80,7 +101,49 @@
 		</div>
 		<!-- DIV 4 -->
 		<div class="col s12" id="test4">
-			Test 4
+			<div class="container">
+				 <table class="striped">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Item Name</th>
+							<th>Item Price</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Alvin</td>
+							<td>Eclair</td>
+							<td>$0.87</td>
+						</tr>
+						<tr class="blue">
+							<td>Alan</td>
+							<td>Jellybean</td>
+							<td>$3.76</td>
+						</tr>
+						<tr>
+							<td>Jonathan</td>
+							<td>Lollipop</td>
+							<td>$7.00</td>
+						</tr>
+						<tr>
+							<td>Alvin</td>
+							<td>Eclair</td>
+							<td>$0.87</td>
+						</tr>
+						<tr>
+							<td>Alan</td>
+							<td>Jellybean</td>
+							<td>$3.76</td>
+						</tr>
+						<tr>
+							<td>Jonathan</td>
+							<td>Lollipop</td>
+							<td>$7.00</td>
+						</tr>
+					</tbody>
+				</table>   
+			</div>
 		</div>
 		<!-- DIV 5 -->
 		<div class="col s12" id="test5">

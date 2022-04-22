@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!--Import Google Icon Font-->
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<!--Import materialize.css-->
+		<link type="text/css" href="css/materialize.min.css" rel="stylesheet" media="screen,projection">
+		<!--Let browser know website is optimized for mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- Titulo que se ve en la pestania -->
+		<title>Contactenos</title>
+	</head>
+
+	<body>
+		<!-- Aca esta la barra de navegacion-->
+		<nav class="nav-extended orange darken-1">
+			<!-- Menu botones superior   -->
+			<div class="nav-wrapper">
+				<a class="brand-logo" href="#">Logo</a>
+				<a class="sidenav-trigger" data-target="mobile-demo" href="#"><i class="material-icons">menu</i></a>
+				<ul class="right hide-on-med-and-down" id="nav-mobile">
+					<li>
+						<a href="index.html">index</a>
+					</li>
+					<li>
+						<a href="contactenos.html">contactenos</a>
+					</li>
+					<li>
+						<a href="collapsible.html">JavaScript</a>
+					</li>
+				</ul>
+			</div>			
+		</nav>
+			
+		<ul class="sidenav" id="mobile-demo">
+			<li>
+				<a href="index.html">index</a>
+			</li>
+			<li>
+				<a href="contactenos.html">contactenos</a>
+			</li>
+			<li>
+				<a href="collapsible.html">JavaScript</a>
+			</li>
+		</ul>	
+		
+		<h1>Contactenos</h1>
+		<!-- Aca creo el que me ajusta los margenes del cuerpo -->
+		<div class="container">
+			<!-- Aca creo el row que me permite usar el grid -->
+			<div class="row">
+				<!-- Inicio la etiqueta formulario para poder enviar informacion-->
+				<form class="col s12 m6 offset-m3">
+					<!-- Armo -->
+					<div class="row">
+						<div class="input-field col s12 m9">
+							<!-- Campo de texto basico-->
+							<input id="nombre" type="text" class="validate">
+							<!--
+									!!!! IMPORTANTE !!!!!
+									Tener en cuenta que el "id" en la etiqueta input tiene que 
+									ser iguar al "for" en la etiqueta label
+							-->	
+							<label for="nombre">Nombres</label>
+						</div>
+
+						<div class="input-field col s12 m3">
+							<input id="edad" type="text" class="validate">							
+							<label for="edad">edad</label>
+						</div>
+
+						<div class="input-field col s12">
+
+							<input id="apellidos" type="text" class="validate">
+							<label for="apellidos">Apellidos</label>
+
+						</div>
+						<div class="input-field col s12">
+							<!-- 
+								Aca lo importante es ver que la etiqueta type dice email 
+								en ves de text 
+							-->
+							<input id="email" type="email" class="validate">
+							<label for="email">Email</label>
+						</div>
+						<div class="input-field col s12">
+
+							<input id="telefono" type="number" class="validate">
+							<label for="telefono">Teléfono</label>
+
+						</div>
+						<div class="input-field col s12">
+							<!--
+								Esto despliega un calendario para la seleccion
+
+							-->
+							<input id="fecha" type="text" class="datepicker blue">
+							<label for="fecha">Fecha Nacimiento</label>
+
+						</div>
+		
+						<button class="btn waves-effect waves-light" type="submit" name="action">
+							Enviar
+							<i class="material-icons right">desktop_mac</i>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+
+		<!--JavaScript at end of body for optimized loading-->
+		<script src="js/materialize.min.js" type="text/javascript"></script>
+
+		<script>
+
+			document.addEventListener('DOMContentLoaded', function() {
+
+				M.AutoInit();
+
+				var elems = document.querySelectorAll('.sidenav');
+				var instances = M.Sidenav.init(elems);
+
+				var elems = document.querySelectorAll('.datepicker');
+				var option = "";
+				var instances = M.Datepicker.init(elems, option);
+
+			});
+
+		</script>
+
+	</body>
+</html>
