@@ -5,7 +5,7 @@ $y = 5;
 $z = 2;
 $a = 10;
 $b = "10";
-
+$c = "Milanesa";
 // Creamos variables para ver comportamiento Igualacion
 $varIgual1 = $y == $a;
 $varIgual2 = $x == $a;
