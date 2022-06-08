@@ -1,64 +1,30 @@
+
+
+
+
 <?php
 
-	// String conexion a la base de datos
-	$srtConexion 	= "mysql:host=localhost;dbname=phpmysql";
-	// Credenciales
-	$usuario 		= "root";
-	$clave 			= "";
-	$options = [
-		PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-		PDO::ATTR_CASE => PDO::CASE_NATURAL,
-		PDO::ATTR_ORACLE_NULLS => PDO::NULL_EMPTY_STRING
-	];
-	$conexion 	= new PDO($srtConexion, $usuario, $clave, $options); 
+	require_once('modelos/alumnos_modelo.php');
 
+	$objAlumno = new alumnos_modelo();	
 
 	if(isset($_POST['accion']) && $_POST['accion'] == "ingresar"){
-
-		$nombre = "";
-		if(isset($_POST['nombre'])){
-			$nombre = $_POST['nombre'];	
-		}
-		$apellido = "";
-		if(isset($_POST['apellido'])){
-			$apellido = $_POST['apellido'];	
-		}
-		$documento = "";
-		if(isset($_POST['documento'])){
-			$documento = $_POST['documento'];	
-		}
-		$tipoDocumento = "";
-		if(isset($_POST['tipoDocumento'])){
-			$tipoDocumento = $_POST['tipoDocumento'];	
-		}
-		$fechaNacimiento = "";
-		if(isset($_POST['fechaNacimiento'])){
-			$fechaNacimiento = $_POST['fechaNacimiento'];	
-		}
-		print_r($nombre."|".$apellido."|".$documento."|".$tipoDocumento."|".$fechaNacimiento);
-		echo("Voy a ingresar un registro");
-		$sqlInsert = "INSERT alumnos SET
-						documento 	= '".$documento."',
-						nombre		= '".$nombre."',
-						apellidos	= '".$apellido."',
-						tipoDocumento = '".$tipoDocumento."',
-						fechaNacimiento = '".$fechaNacimiento."';";
-
-		$preparo 	= $conexion->prepare($sqlInsert);
-		$respuesta	= $preparo->execute(array());
-
+		
+		$objAlumno->constructor();
+		$respuesta = $objAlumno->ingresar();
+		
 	}else{
 		echo("Voy se van a ingresar registros");	
 	}
 
+	if(isset($_GET['alum']) && $_GET['alum'] != ""){
 
-	//SELECT * FROM alumnos;
-	$sql = "SELECT * FROM alumnos ORDER BY nombre;";
-	$preparo 	= $conexion->prepare($sql);
-	$preparo->execute(array());
-	$lista 		= $preparo->fetchAll();
+		$objAlumno->cargar($_GET['alum']);
 
+	}
 
+	$lista 		= $objAlumno->listar();
+	$listaTiposDocu = $objAlumno->listaTipoDocumuento();
 
 ?>
 
@@ -94,10 +60,44 @@
 		<div class="col s12" id="">
 			<div class="container">
 				<div class="row">
+<?php
+
+					if(isset($_GET['alum']) && $_GET['alum'] != ""){
+?>
+						<h4>Nombre:<span><?= $objAlumno->obtenerNombre()?></span></h4>
+						<h4>Apellido:<span><?= $objAlumno->obtenerApellido()?></span></h4>
+						<h4>Documento:<span><?= $objAlumno->obtenerDocumento()?></span></h4>
+						<h4>TipoDocumento:<span><?= $objAlumno->obtenerTipoDocumento()?></span></h4>
+						<h4>fechaNacimiento:<span><?= $objAlumno->obtenerFechaNacimiento()?></span></h4>
+<?php
+					}
+
+?>
+
 					<div class="col s12" id="test1">
 						<h3>Ingresar Alumno:</h3>			
 					</div>
-					<form method="POST" action="indexDB2.php" class="col s12">
+<?php	
+					if(isset($respuesta['estado']) && $respuesta['estado'] == "Error" ){
+?>
+					<div class="col s12 red">
+						<h5><?=$respuesta['mensaje']?></h5>
+					</div>
+<?PHP 
+					}
+?>
+<?php	
+					if(isset($respuesta['estado']) && $respuesta['estado'] == "Ok" ){
+?>
+					<div class="col s12 green">
+						<h5><?=$respuesta['mensaje']?></h5>
+					</div>
+<?PHP 
+					}
+?>
+
+
+					<form method="POST" action="indexDBclase.php" class="col s12">
 						<div class="row">
 							<div class="input-field col s6">
 								<input id="first_name" type="text" class="validate" name="nombre">
@@ -114,8 +114,17 @@
 							 	<label for="documento">Documento</label>
 							</div>
 							<div class="input-field col s4">
-								<input id="tipoDocumento" type="text" class="validate" name="tipoDocumento">
-								<label for="tipoDocumento">Tipo Documento</label>
+								<select id="tipoDocumento" name="tipoDocumento" >
+									<option value="" disabled selected>Seleccione una opcion</option>
+<?php
+									foreach($listaTiposDocu as $tipoDocumento){
+?>
+									<option value="<?=$tipoDocumento?>"><?=$tipoDocumento?></option>
+<?php
+									}
+?>
+								</select>
+								<label>Tipo Documento</label>
 							</div>
 							<div class="input-field col s4">
 								<input id="fechaNacimiento" type="date" class="validate" name="fechaNacimiento">
@@ -161,7 +170,7 @@
 							<td><?=$alumnos['tipoDocumento']?></td>
 							<td><?=$alumnos['fechaNacimiento']?></td>
 							<td>
-								<a class="btn red">Ver</a>
+								<a class="btn red" href="indexDBclase.php?alum=<?=$alumnos['documento']?>" >Ver</a>
 							</td>
 						</tr>
 
