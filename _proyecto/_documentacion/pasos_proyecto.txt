@@ -1,0 +1,59 @@
+
+
+A)El proyecto va a estar definido en 2 partes 
+A.1) Back-end (Es sistema de gestion del sitio)
+A.2) Front-end (Es la pagina Web abierta al publico)
+
+-----------------------------------------------------
+
+1)Documentacion del proyecto (_documento)
+
+1) Diagramas (mer, normacion, diagramas flujos, diagramas secuencia)
+2) readme.txt (Descripcion del proyecto)
+2.1) Titulo.
+2.2) Autores.
+2.3) En que esta Hecho.
+2.3.1) Tecnologia que se usa y tecnogia probada.
+2.4) Alcance.
+2.5) Fecha Inicio
+2.6) Ultima Actualizacion
+
+3) Manuales de usuarios.
+
+----------------------------------------------------
+
+1) Creo el archivo index.php y lo pruebo
+2) Creo una carpeta modelos (En esta carpeta voy a guardar todos los modelos que voy a usar[class])
+3) Creo una carpeta configuracion (Todo lo que preciso para la configuracion: credenciales base datos, link ws, version sistema. etc..)
+4) Voy a crear carpetas de vistas (Estas carpeta guarda todo lo relacionado a la parte visual)
+5) route.php (Es un manejador de rutas)
+6) web (va a tener los JavaScript, ccs, img)
+
+
+
+----------------------------------------------------
+----------------------------------------------------
+
+Preparar proyecto
+
+1) Bajo archivos materilize "https://materializecss.com/getting-started.html"
+2) Copio los archivos descargados dentro la carpeta Web
+3) En el archivo index.php copio el codigo de ejemplo HTML Setup.
+3.1) Cambio la rutas de css de css/materialize.min.css a web/css/materialize.css
+3.2) Cambio la rutas de js de js/materialize.min.js a web/js/materialize.js
+3.3) Inicializar le marterileze 
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		M.AutoInit();			
+	});	
+</script>
+
+3.4) Diseño de la pagina 
+3.4.1) Elejimos navbar
+3.4.2) Elejimos footer
+
+
+
+
+
+
