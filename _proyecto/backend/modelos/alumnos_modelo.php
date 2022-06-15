@@ -20,9 +20,9 @@ class alumnos_modelo {
 	protected $fechaNacimiento;
 
 	
-	public function constructor(){
+	public function constructor($nombre){
 
-		$this->documeto 		= "";
+		$this->documeto 		= $_POST['nombre'];
 		$this->nombre 			= "";
 		$this->apellidos 		= "";
 		$this->tipoDocumento 	= "";
@@ -39,12 +39,60 @@ class alumnos_modelo {
 
 	}
 
+	public function ingresar(){
+
+		if($this->nombre == ""){
+			$retorno = array("estado"=>"Error", "mensaje"=>"El nombre no puede ser vacio" );
+			return $retorno;
+		}
+		if($this->apellido == ""){
+			$retorno = array("estado"=>"Error", "mensaje"=>"El apellido no puede ser vacio" );
+			return $retorno;
+		}
+		$edad = 0;
+		$fechaHoy   = new DateTime(date("Y-m-d")); 
+		$fechaNac   = new DateTime($this->fechaNacimiento); 
+		// Fecha que traigo 
+		$diferencia = $fechaHoy->diff($fechaNac);              
+		if($diferencia->days < 6570){
+			$retorno = array("estado"=>"Error", "mensaje"=>"El el alumnos es menor de edad" );
+			return $retorno;
+		}
+
+		$arrayTipoDocu = $this->listaTipoDocumuento();
+		if(!in_array($this->tipoDocumento,  $arrayTipoDocu)){
+			$retorno = array("estado"=>"Error", "mensaje"=>"El tipo de documento no es valido" );
+			return $retorno;
+		}
+
+		$sqlInsert = "INSERT alumnos SET
+						documento 		= :documento,
+						nombre			= :nombre,
+						apellidos		= :apellidos,
+						tipoDocumento 	= :tipoDocumento,
+						fechaNacimiento = :fechaNacimiento ;";
+
+		$arrayInsert = array(
+				"documento" 		=> $this->documento,
+				"nombre" 			=> $this->nombre,
+				"apellidos" 		=> $this->apellido,
+				"tipoDocumento" 	=> $this->tipoDocumento,
+				"fechaNacimiento" 	=> $this->fechaNacimiento
+			);
+		$this->persistirConsulta($sqlInsert, $arrayInsert);
+		$retorno = array("estado"=>"Ok", "mensaje"=>"Se ingreso el alumno correctamente" );
+		return $retorno;
+
+	}
+
+
+
 	public function listar($filtros = array()){
 
 		$sql = "SELECT * FROM alumnos ";
 		$arrayDatos = array();
 
-		if(isset($filtros['pagina'])){
+		if(isset($filtros['pagina']) && $filtros['pagina'] != ""){
 
 			$pagina = ($filtros['pagina'] - 1) * 10;
 			$sql .= " ORDER BY documento LIMIT ".$pagina.",10;";		
@@ -55,15 +103,33 @@ class alumnos_modelo {
 
 		}
 
-		$lista 		= $this->ejecutarConsulta($sql, $arrayDatos);
-
-		
-	
-
-
+		$lista 	= $this->ejecutarConsulta($sql, $arrayDatos);
 		return $lista;
 
 	}
+
+	public function totalRegistros(){
+
+		$sql = "SELECT count(*) AS total FROM alumnos";
+		$arrayDatos = array();
+
+		$lista 	= $this->ejecutarConsulta($sql, $arrayDatos);
+		$totalRegistros = $lista[0]['total'];		
+		return $totalRegistros;
+
+	}
+
+	public function listaTipoDocumuento(){
+
+		$arrayRetorno = array();
+		$arrayRetorno['CI'] = "CI";
+		$arrayRetorno['Pasaporte'] = "Pasaporte";
+		$arrayRetorno['Credencial'] = "Credencial";
+		return $arrayRetorno;
+
+	}
+
+
 
 	private function ejecutarConsulta($sql, $arraySQL){
 
