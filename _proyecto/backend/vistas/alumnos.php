@@ -4,69 +4,62 @@
 
 	$objAlumnos = new alumnos_modelo();
 
-/*
+
 	// Evaluar las acciones que mando
-	if(isset($_POST['accion']) && $_POST['accion'] = "ingresar"){
+	$error = array();
+	if(isset($_POST['accion']) && $_POST['accion'] == "ingresar"){
 
-		$nombre = $_POST['nombre'];
+		// En caso que la accion sera ingresar procedemos a ingresar el registro
+		$objAlumnos->constructor();
+		print_r($objAlumnos->obtenerDocumento());
+		print_r($objAlumnos->obtenerNombre());
+		$error = $objAlumnos->ingresar();
 
-		$objAlumnos->costructor();
-
+		print_r($error);
 	}
 
-*/
 
 
+	// Armamos el paginado
 	$arrayFiltro 	= array("pagina" => "1");
 	if(isset($_GET['p']) && !Empty($_GET['p']) && $_GET['p'] != ""){
-
-		$arrayPagina = $objAlumnos->validarPagina($_GET['p']);
-		$arrayFiltro["pagina"] = $arrayPagina['pagina'];
-
-		
+		$arrayFiltro["pagina"] = $_GET['p'];
 	}
-	$arrayPagina = array("paginaAtras"=>1,"pagina"=>1,"paginaSiguente"=>1, "totalPagina"=>4);
-	
-/*
-	// Valido si $arrayFiltro["pagina"] es un numero 
-	if(!is_numeric($arrayFiltro["pagina"])){
-		// En caso de no ser un numero le asigno el numero 1
-		$arrayFiltro["pagina"] = 1;	
-	}
-	
-	$paginaAtras 	= $arrayFiltro["pagina"] - 1;
-	// Valido si pagina atras es menor a 1
-	if($paginaAtras < 1){
-		// En caso que sea menor le asigo el valor 1
-		$paginaAtras = 1;	
-		$arrayFiltro["pagina"] = 1;
-
-	}	
-	$totalRegistros	= $objAlumnos->totalRegistros();
-	$totalpaginas = ceil(($totalRegistros/10));	
-
-	$paginaSiguiente = $arrayFiltro["pagina"] + 1;
-	if($paginaSiguiente >= $totalpaginas){
-		$paginaSiguiente = $totalpaginas;
-	}	
-
-*/
-	
+	$arrayPagina = $objAlumnos->paginador($arrayFiltro["pagina"]);
 
 
 	$listaTiposDocu = $objAlumnos->listaTipoDocumuento();
 	$listaAlumnos 	= $objAlumnos->listar($arrayFiltro);
 
-	//print_r($listaAlumnos);
 
 ?>
 
 
 
 <div>
-	<h2>Alumnos</h2>
+	
 	<!-- Modal Trigger -->
-	<a class="waves-effect waves-light btn modal-trigger right" href="#modal1">Modal</a>
+	
+	<h2>Alumnos</h2>
+
+	
+	<?PHP if(isset($error['estado']) && $error['estado']=="Error"){ ?>
+		<div class="red" style="height:70px">
+	<?PHP	print_r($error['mensaje']); ?>
+		</div>
+	<?PHP } ?>
+
+	<?PHP if(isset($error['estado']) && $error['estado']=="Ok"){ ?>
+		<div class="teal lighten-4" style="height:70px">
+	<?PHP print_r($error['mensaje']); ?>
+		</div>
+	<?PHP } ?>
+	
+
+
+	<a class="waves-effect waves-light btn modal-trigger right" href="#modal1" style="margin-buttom:100px">Ingresar</a>
+	<br><br>
+	<div class="divider"></div>
 	<table class="striped">
 		<thead>
 			<tr class="light-blue lighten-3">
@@ -133,7 +126,7 @@
 	<!-- Modal Structure -->
 	<div id="modal1" class="modal modal-fixed-footer">
 		<div class="modal-content">
-			<h4>Modal Header</h4>
+			<h4>Ingresar Alumnos</h4>
 			<form method="POST" action="index.php?r=alumnos" class="col s12">
 				<div class="row">
 					<div class="input-field col s6">
@@ -141,7 +134,7 @@
 						<label for="first_name">Nombre</label>
 					</div>
 					<div class="input-field col s6">
-						<input id="last_name" type="text" class="validate" name="apellido">
+						<input id="last_name" type="text" class="validate" name="apellidos">
 						<label for="last_name">Apellido</label>
 					</div>
 				</div>
