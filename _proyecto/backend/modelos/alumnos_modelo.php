@@ -41,6 +41,12 @@ class alumnos_modelo {
 	public function obtenerApellidos(){
 		return $this->apellidos;
 	}
+	public function obtenerTipoDocumento(){
+		return $this->tipoDocumento;
+	}
+	public function obtenerFechaNacimiento(){
+		return $this->fechaNacimiento;
+	}
 
 	public function cargarAlumno($documento){
 
@@ -95,6 +101,33 @@ class alumnos_modelo {
 
 	}
 
+	public function cargar($documento){
+
+		if($documento == ""){
+			$retorno = array("estado"=>"Error", "mensaje"=>"El documento no puede ser vacio" );
+			return $retorno;
+		}
+		$sql = "SELECT * FROM alumnos WHERE documento = :documento";
+		$arraySQL = array("documento" => $documento);
+		$lista 	= $this->ejecutarConsulta($sql, $arraySQL);
+
+		$this->documento 		= $lista[0]['documento'];
+		$this->nombre 			= $lista[0]['nombre'];
+		$this->apellidos 		= $lista[0]['apellidos'];
+		$this->tipoDocumento 	= $lista[0]['tipoDocumento'];
+		$this->fechaNacimiento 	= $lista[0]['fechaNacimiento'];
+
+	}
+
+	public function borrar(){
+
+		$sql = "DELETE FROM alumnos WHERE documento = :documento";
+		$arraySQL = array("documento"=>$this->documento);
+		$this->persistirConsulta($sql, $arraySQL);
+		$retorno = array("estado"=>"Ok", "mensaje"=>"Se borro el alumno" );
+		return $retorno;
+
+	}
 
 
 	public function listar($filtros = array()){

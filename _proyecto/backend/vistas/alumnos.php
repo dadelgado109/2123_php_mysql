@@ -14,11 +14,24 @@
 		print_r($objAlumnos->obtenerDocumento());
 		print_r($objAlumnos->obtenerNombre());
 		$error = $objAlumnos->ingresar();
-
 		print_r($error);
+
 	}
 
+	if(isset($_POST['accion']) && $_POST['accion'] == "borrar"){
 
+		$documento = isset($_POST['documento'])?$_POST['documento']:"";
+
+		$objAlumnos->cargar($documento);
+
+		print_r("<br>");
+		print_r($objAlumnos->obtenerDocumento()."-");
+		print_r($objAlumnos->obtenerNombre()."-");
+		print_r($objAlumnos->obtenerFechaNacimiento());
+		
+		$error = $objAlumnos->borrar();
+
+	}
 
 	// Armamos el paginado
 	$arrayFiltro 	= array("pagina" => "1");
@@ -39,27 +52,44 @@
 <div>
 	
 	<!-- Modal Trigger -->
-	
 	<h2>Alumnos</h2>
-
-	
 	<?PHP if(isset($error['estado']) && $error['estado']=="Error"){ ?>
-		<div class="red" style="height:70px">
+		<div class="red valign-wrapper" style="height:70px">
+			<h5 class="center-align" style="width:100%">
 	<?PHP	print_r($error['mensaje']); ?>
+			</h5>
 		</div>
 	<?PHP } ?>
 
 	<?PHP if(isset($error['estado']) && $error['estado']=="Ok"){ ?>
-		<div class="teal lighten-4" style="height:70px">
+		<div class="teal lighten-4 valign-wrapper" style="height:70px">
+			<h5 class="center-align" style="width:100%">
 	<?PHP print_r($error['mensaje']); ?>
+			</h5>
 		</div>
 	<?PHP } ?>
-	
 
+<?PHP 
+		if(isset($_GET['a']) && $_GET['a'] == "borrar"){ 
+			$idRegistro = isset($_GET['id'])?$_GET['id']:"";
+?>
+		<div class="divider"></div>
+		<form method="POST" action="index.php?r=alumnos" class="col s12">
+			<h3>Quiere borrar al alumno ?</h3>
+			<input type="hidden" name="documento" value="<?=$idRegistro?>" >
+			<button class="btn waves-effect waves-light" type="submit" name="accion" value="borrar">Aceptar
+				<i class="material-icons right">delete_sweep</i>
+			</button>
+			<button class="btn waves-effect waves-light red" type="submit" name="accion">Cancelar
+				<i class="material-icons right">cancel</i>
+			</button>
+		</form>
+		<br><br>
+		<div class="divider"></div>
+	<?PHP } ?>
 
-	<a class="waves-effect waves-light btn modal-trigger right" href="#modal1" style="margin-buttom:100px">Ingresar</a>
+	<a class="waves-effect waves-light btn modal-trigger right" href="#modal1">Ingresar</a>
 	<br><br>
-	<div class="divider"></div>
 	<table class="striped">
 		<thead>
 			<tr class="light-blue lighten-3">
@@ -81,12 +111,14 @@
 				<td><?=$alumno['apellidos']?></td>
 				<td><?=$alumno['fechaNacimiento']?></td>
 				<td>
-					<a class="waves-effect waves-light btn right">
-						<i class="material-icons">create</i>
-					</a>
-					<a class="waves-effect waves-light btn red right">
-						<i class="material-icons">delete</i>
-					</a>	
+					<div class="right">
+						<a class="waves-effect waves-light btn" href="index.php?r=alumnos&id=<?=$alumno['documento']?>&a=editar">
+							<i class="material-icons">create</i>
+						</a>
+						<a class="waves-effect waves-light btn red" href="index.php?r=alumnos&id=<?=$alumno['documento']?>&a=borrar">
+							<i class="material-icons">delete</i>
+						</a>
+					</div>	
 				</td>
 			</tr>
 			
