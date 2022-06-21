@@ -11,27 +11,28 @@
 
 		// En caso que la accion sera ingresar procedemos a ingresar el registro
 		$objAlumnos->constructor();
-		print_r($objAlumnos->obtenerDocumento());
-		print_r($objAlumnos->obtenerNombre());
 		$error = $objAlumnos->ingresar();
-		print_r($error);
 
 	}
 
 	if(isset($_POST['accion']) && $_POST['accion'] == "borrar"){
 
 		$documento = isset($_POST['documento'])?$_POST['documento']:"";
-
 		$objAlumnos->cargar($documento);
-
-		print_r("<br>");
-		print_r($objAlumnos->obtenerDocumento()."-");
-		print_r($objAlumnos->obtenerNombre()."-");
-		print_r($objAlumnos->obtenerFechaNacimiento());
-		
+		print_r($objAlumnos->obtenerFechaNacimiento());		
 		$error = $objAlumnos->borrar();
 
 	}
+
+	if(isset($_POST['accion']) && $_POST['accion'] == "guardar"){
+
+		// En caso que la accion sera ingresar procedemos a ingresar el registro
+		$objAlumnos->constructor();
+		$error = $objAlumnos->guardar();
+		print_r($error);
+
+	}
+
 
 	// Armamos el paginado
 	$arrayFiltro 	= array("pagina" => "1");
@@ -70,24 +71,76 @@
 	<?PHP } ?>
 
 <?PHP 
-		if(isset($_GET['a']) && $_GET['a'] == "borrar"){ 
-			$idRegistro = isset($_GET['id'])?$_GET['id']:"";
-?>
-		<div class="divider"></div>
-		<form method="POST" action="index.php?r=alumnos" class="col s12">
-			<h3>Quiere borrar al alumno ?</h3>
-			<input type="hidden" name="documento" value="<?=$idRegistro?>" >
-			<button class="btn waves-effect waves-light" type="submit" name="accion" value="borrar">Aceptar
-				<i class="material-icons right">delete_sweep</i>
-			</button>
-			<button class="btn waves-effect waves-light red" type="submit" name="accion">Cancelar
-				<i class="material-icons right">cancel</i>
-			</button>
-		</form>
-		<br><br>
-		<div class="divider"></div>
-	<?PHP } ?>
 
+if(isset($_GET['a']) && $_GET['a'] == "borrar"){ 
+			$idRegistro = isset($_GET['id'])?$_GET['id']:"";
+
+?>
+			<div class="divider"></div>
+			<form method="POST" action="index.php?r=alumnos" class="col s12">
+				<h3>Quiere borrar al alumno ?</h3>
+				<input type="hidden" name="documento" value="<?=$idRegistro?>" >
+				<button class="btn waves-effect waves-light" type="submit" name="accion" value="borrar">Aceptar
+					<i class="material-icons right">delete_sweep</i>
+				</button>
+				<button class="btn waves-effect waves-light red" type="submit" name="accion">Cancelar
+					<i class="material-icons right">cancel</i>
+				</button>
+			</form>
+			<br><br>
+			<div class="divider"></div>
+<?PHP } ?>
+
+<?PHP 
+		if(isset($_GET['a']) && $_GET['a'] == "editar" && isset($_GET['id']) && $_GET['id'] != ""){ 
+			$idRegistro = isset($_GET['id'])?$_GET['id']:"";
+			$objAlumnos->cargar($idRegistro);
+?>
+			<div class="divider"></div>
+			<form method="POST" action="index.php?r=alumnos" class="col s12">
+				<h3>Editar Alumno </h3>
+				<input type="hidden" name="documento" value="<?=$idRegistro?>" >
+				<input type="hidden" name="accion" value="guardar">
+				<div class="row">
+					<div class="input-field col s6">
+						<input id="first_name" type="text" class="validate" name="nombre" value="<?=$objAlumnos->obtenerNombre()?>">
+						<label for="first_name">Nombre</label>
+					</div>
+					<div class="input-field col s6">
+						<input id="last_name" type="text" class="validate" name="apellidos"  value="<?=$objAlumnos->obtenerApellidos()?>">
+						<label for="last_name">Apellido</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s4">
+						<input id="documento" type="number" class="validate" name="documento" value="<?=$objAlumnos->obtenerDocumento()?>" disabled >
+					 	<label for="documento">Documento</label>
+					</div>
+					<div class="input-field col s4">
+						<select id="tipoDocumento" name="tipoDocumento" >
+							<option value="" disabled selected>Seleccione una opcion</option>
+<?php
+							foreach($listaTiposDocu as $tipoDocumento){
+?>
+							<option value="<?=$tipoDocumento?>" <?php if($tipoDocumento == $objAlumnos->obtenerTipoDocumento()){ echo("selected"); } ?> ><?=$tipoDocumento?></option>
+<?php
+							}
+?>
+						</select>
+						<label>Tipo Documento</label>
+					</div>
+					<div class="input-field col s4">
+						<input id="fechaNacimiento" type="date" class="validate" name="fechaNacimiento" value="<?=$objAlumnos->obtenerFechaNacimiento()?>" >
+						<label for="fechaNacimiento">Fecha Nacimiento</label>
+					</div>
+				</div>				
+				<button class="btn waves-effect waves-light" type="submit">Guardar
+					<i class="material-icons right">send</i>
+				</button>
+			</form>
+			<br><br>
+			<div class="divider"></div>
+<?PHP } ?>
 	<a class="waves-effect waves-light btn modal-trigger right" href="#modal1">Ingresar</a>
 	<br><br>
 	<table class="striped">
@@ -97,7 +150,8 @@
 				<th>Nombre</th>
 				<th>Apellido</th>
 				<th>Fecha nacimiento</th>
-				<th>Acciones</th>
+				<th>Tipo Documento</th>
+				<th class="center-align" style="width: 130px;" >Acciones</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -110,6 +164,7 @@
 				<td><?=$alumno['nombre']?></td>
 				<td><?=$alumno['apellidos']?></td>
 				<td><?=$alumno['fechaNacimiento']?></td>
+				<td><?=$alumno['tipoDocumento']?></td>
 				<td>
 					<div class="right">
 						<a class="waves-effect waves-light btn" href="index.php?r=alumnos&id=<?=$alumno['documento']?>&a=editar">
@@ -128,7 +183,7 @@
 ?>
 
 			<tr>
-				<td colspan="5">
+				<td colspan="6">
 					<ul class="pagination right">
 						<li class="waves-effect"><a href="index.php?r=alumnos&p=<?=$arrayPagina['paginaAtras']?>"><i class="material-icons">chevron_left</i></a></li>
 <?php
