@@ -18,8 +18,7 @@
 	if(isset($_POST['accion']) && $_POST['accion'] == "borrar"){
 
 		$documento = isset($_POST['documento'])?$_POST['documento']:"";
-		$objAlumnos->cargar($documento);
-		print_r($objAlumnos->obtenerFechaNacimiento());		
+		$objAlumnos->cargar($documento);	
 		$error = $objAlumnos->borrar();
 
 	}
@@ -29,7 +28,6 @@
 		// En caso que la accion sera ingresar procedemos a ingresar el registro
 		$objAlumnos->constructor();
 		$error = $objAlumnos->guardar();
-		print_r($error);
 
 	}
 

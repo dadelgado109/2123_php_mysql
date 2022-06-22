@@ -3,44 +3,41 @@
 
 require_once("modelos/generico_modelo.php");
 
-class profesores_modelo extends generico_modelo{
+class administradores_modelo extends generico_modelo {
 
-
-	protected $documento;
+	protected $id;
 
 	protected $nombre;
 
-	protected $apellidos;
+	protected $mail;
 
-	protected $fechaNacimiento;
+	protected $clave;
 
 	
 	public function constructor(){
 
-		$this->documento 		= $this->validarPost('documento');
+		$this->id 				= $this->validarPost('id');
 		$this->nombre 			= $this->validarPost('nombre');
-		$this->apellidos 		= $this->validarPost('apellidos');
-		$this->fechaNacimiento 	= $this->validarPost('fechaNacimiento');
+		$this->mail 			= $this->validarPost('mail');
+		$this->clave 			= $this->validarPost('clave', 'CI');
 
 	}
 
-	public function obtenerDocumento(){
-		return $this->documento;
+	public function obtenerId(){
+		return $this->id;
 	}
 	public function obtenerNombre(){
 		return $this->nombre;
 	}
-	public function obtenerApellidos(){
-		return $this->apellidos;
-	}
-	public function obtenerFechaNacimiento(){
-		return $this->fechaNacimiento;
+	public function obtenerMail(){
+		return $this->mail;
 	}
 
-	public function cargarProfesor($documento){
 
-		$sql = "SELECT * FROM profesores WHERE documento = :documento; ";
-		$arrayDatos = array("documento"=>$documento);
+	public function cargarAdministrador($idRegistro){
+
+		$sql = "SELECT * FROM administradores WHERE id = :idRegistro; ";
+		$arrayDatos = array("idRegistro"=>$idRegistro);
 		$lista 		= $this->ejecutarConsulta($sql, $arrayDatos);
 		return $lista;
 
@@ -52,34 +49,20 @@ class profesores_modelo extends generico_modelo{
 			$retorno = array("estado"=>"Error", "mensaje"=>"El nombre no puede ser vacio" );
 			return $retorno;
 		}
-		if($this->apellidos == ""){
-			$retorno = array("estado"=>"Error", "mensaje"=>"El apellido no puede ser vacio" );
-			return $retorno;
-		}
-		$edad = 0;
-		$fechaHoy   = new DateTime(date("Y-m-d")); 
-		$fechaNac   = new DateTime($this->fechaNacimiento); 
-		// Fecha que traigo 
-		$diferencia = $fechaHoy->diff($fechaNac);              
-		if($diferencia->days < 6570){
-			$retorno = array("estado"=>"Error", "mensaje"=>"El el profesor es menor de edad" );
-			return $retorno;
-		}
-		$sqlInsert = "INSERT profesores SET
-						documento 		= :documento,
-						nombre			= :nombre,
-						apellidos		= :apellidos,
-						fechaNacimiento = :fechaNacimiento,
-						estado			= 1 ;";
+
+		$sqlInsert = "INSERT administradores SET
+						nombre	= :nombre,
+						mail	= :mail,
+						clave 	= :clave,
+						estado	= 1 ;";
 
 		$arrayInsert = array(
-				"documento" 		=> $this->documento,
-				"nombre" 			=> $this->nombre,
-				"apellidos" 		=> $this->apellidos,
-				"fechaNacimiento" 	=> $this->fechaNacimiento
-			);
+				"nombre" 	=> $this->nombre,
+				"mail" 		=> $this->mail,
+				"clave" 	=> $this->clave
+		);
 		$this->persistirConsulta($sqlInsert, $arrayInsert);
-		$retorno = array("estado"=>"Ok", "mensaje"=>"Se ingreso el profesor correctamente" );
+		$retorno = array("estado"=>"Ok", "mensaje"=>"Se ingreso el administradore correctamente" );
 		return $retorno;
 
 	}
@@ -100,13 +83,19 @@ class profesores_modelo extends generico_modelo{
 		// Fecha que traigo 
 		$diferencia = $fechaHoy->diff($fechaNac);              
 		if($diferencia->days < 6570){
-			$retorno = array("estado"=>"Error", "mensaje"=>"El el profesor es menor de edad" );
+			$retorno = array("estado"=>"Error", "mensaje"=>"El el alumnos es menor de edad" );
+			return $retorno;
+		}
+		$arrayTipoDocu = $this->listaTipoDocumuento();
+		if(!in_array($this->tipoDocumento,  $arrayTipoDocu)){
+			$retorno = array("estado"=>"Error", "mensaje"=>"El tipo de documento no es valido" );
 			return $retorno;
 		}
 
-		$sqlInsert = "UPDATE profesores SET
+		$sqlInsert = "UPDATE alumnos SET
 						nombre			= :nombre,
 						apellidos		= :apellidos,
+						tipoDocumento 	= :tipoDocumento,
 						fechaNacimiento = :fechaNacimiento 
 						WHERE documento = :documento;";
 
@@ -114,10 +103,11 @@ class profesores_modelo extends generico_modelo{
 				"documento" 		=> $this->documento,
 				"nombre" 			=> $this->nombre,
 				"apellidos" 		=> $this->apellidos,
+				"tipoDocumento" 	=> $this->tipoDocumento,
 				"fechaNacimiento" 	=> $this->fechaNacimiento
 			);
 		$this->persistirConsulta($sqlInsert, $arrayInsert);
-		$retorno = array("estado"=>"Ok", "mensaje"=>"Se guardo el profesor correctamente" );
+		$retorno = array("estado"=>"Ok", "mensaje"=>"Se guardo el alumno correctamente" );
 		return $retorno;
 
 	}
@@ -128,13 +118,14 @@ class profesores_modelo extends generico_modelo{
 			$retorno = array("estado"=>"Error", "mensaje"=>"El documento no puede ser vacio" );
 			return $retorno;
 		}
-		$sql = "SELECT * FROM profesores WHERE documento = :documento";
+		$sql = "SELECT * FROM alumnos WHERE documento = :documento";
 		$arraySQL = array("documento" => $documento);
 		$lista 	= $this->ejecutarConsulta($sql, $arraySQL);
 
 		$this->documento 		= $lista[0]['documento'];
 		$this->nombre 			= $lista[0]['nombre'];
 		$this->apellidos 		= $lista[0]['apellidos'];
+		$this->tipoDocumento 	= $lista[0]['tipoDocumento'];
 		$this->fechaNacimiento 	= $lista[0]['fechaNacimiento'];
 
 	}
@@ -142,10 +133,10 @@ class profesores_modelo extends generico_modelo{
 	public function borrar(){
 
 		//$sql = "DELETE FROM alumnos WHERE documento = :documento";
-		$sql = "UPDATE profesores SET estado = 0 WHERE documento = :documento";
+		$sql = "UPDATE alumnos SET estado = 0 WHERE documento = :documento";
 		$arraySQL = array("documento"=>$this->documento);
 		$this->persistirConsulta($sql, $arraySQL);
-		$retorno = array("estado"=>"Ok", "mensaje"=>"Se borro el profesor" );
+		$retorno = array("estado"=>"Ok", "mensaje"=>"Se borro el alumno" );
 		return $retorno;
 
 	}
@@ -153,7 +144,7 @@ class profesores_modelo extends generico_modelo{
 
 	public function listar($filtros = array()){
 
-		$sql = "SELECT * FROM profesores WHERE estado = 1 ";
+		$sql = "SELECT * FROM alumnos WHERE estado = 1 ";
 		$arrayDatos = array();
 
 		if(isset($filtros['pagina']) && $filtros['pagina'] != ""){
@@ -174,7 +165,7 @@ class profesores_modelo extends generico_modelo{
 
 	public function totalRegistros(){
 
-		$sql = "SELECT count(*) AS total FROM profesores";
+		$sql = "SELECT count(*) AS total FROM alumnos";
 		$arrayDatos = array();
 
 		$lista 	= $this->ejecutarConsulta($sql, $arrayDatos);
@@ -183,6 +174,15 @@ class profesores_modelo extends generico_modelo{
 
 	}
 
+	public function listaTipoDocumuento(){
+
+		$arrayRetorno = array();
+		$arrayRetorno['CI'] = "CI";
+		$arrayRetorno['Pasaporte'] = "Pasaporte";
+		$arrayRetorno['Credencial'] = "Credencial";
+		return $arrayRetorno;
+
+	}
 
 
 
