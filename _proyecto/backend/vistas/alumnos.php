@@ -75,7 +75,7 @@ if(isset($_GET['a']) && $_GET['a'] == "borrar"){
 
 ?>
 			<div class="divider"></div>
-			<form method="POST" action="index.php?r=alumnos" class="col s12">
+			<form method="POST" action="sistema.php?r=alumnos" class="col s12">
 				<h3>Quiere borrar al alumno ?</h3>
 				<input type="hidden" name="documento" value="<?=$idRegistro?>" >
 				<button class="btn waves-effect waves-light" type="submit" name="accion" value="borrar">Aceptar
@@ -95,7 +95,7 @@ if(isset($_GET['a']) && $_GET['a'] == "borrar"){
 			$objAlumnos->cargar($idRegistro);
 ?>
 			<div class="divider"></div>
-			<form method="POST" action="index.php?r=alumnos" class="col s12">
+			<form method="POST" action="sistema.php?r=alumnos" class="col s12">
 				<h3>Editar Alumno </h3>
 				<input type="hidden" name="documento" value="<?=$idRegistro?>" >
 				<input type="hidden" name="accion" value="guardar">
@@ -165,10 +165,10 @@ if(isset($_GET['a']) && $_GET['a'] == "borrar"){
 				<td><?=$alumno['tipoDocumento']?></td>
 				<td>
 					<div class="right">
-						<a class="waves-effect waves-light btn" href="index.php?r=alumnos&id=<?=$alumno['documento']?>&a=editar">
+						<a class="waves-effect waves-light btn" href="sistema.php?r=alumnos&id=<?=$alumno['documento']?>&a=editar">
 							<i class="material-icons">create</i>
 						</a>
-						<a class="waves-effect waves-light btn red" href="index.php?r=alumnos&id=<?=$alumno['documento']?>&a=borrar">
+						<a class="waves-effect waves-light btn red" href="sistema.php?r=alumnos&id=<?=$alumno['documento']?>&a=borrar">
 							<i class="material-icons">delete</i>
 						</a>
 					</div>	
@@ -183,7 +183,7 @@ if(isset($_GET['a']) && $_GET['a'] == "borrar"){
 			<tr>
 				<td colspan="6">
 					<ul class="pagination right">
-						<li class="waves-effect"><a href="index.php?r=alumnos&p=<?=$arrayPagina['paginaAtras']?>"><i class="material-icons">chevron_left</i></a></li>
+						<li class="waves-effect"><a href="sistema.php?r=alumnos&p=<?=$arrayPagina['paginaAtras']?>"><i class="material-icons">chevron_left</i></a></li>
 <?php
 					for($i = 1; $i<=$arrayPagina['totalPagina'] ; $i++){
 						$activo = "waves-effect";
@@ -191,11 +191,11 @@ if(isset($_GET['a']) && $_GET['a'] == "borrar"){
 							$activo = "active";
 						}						
 ?>
-						<li class="<?=$activo?>"><a href="index.php?r=alumnos&p=<?=$i?>"><?=$i?></a></li>
+						<li class="<?=$activo?>"><a href="sistema.php?r=alumnos&p=<?=$i?>"><?=$i?></a></li>
 <?php
 					}
 ?>
-				    	<li class="waves-effect"><a href="index.php?r=alumnos&p=<?=$arrayPagina['paginaSiguiente']?>"><i class="material-icons">chevron_right</i></a></li>
+				    	<li class="waves-effect"><a href="sistema.php?r=alumnos&p=<?=$arrayPagina['paginaSiguiente']?>"><i class="material-icons">chevron_right</i></a></li>
 					</ul>
 				</td>
 			</tr>
@@ -212,7 +212,7 @@ if(isset($_GET['a']) && $_GET['a'] == "borrar"){
 	<div id="modal1" class="modal modal-fixed-footer">
 		<div class="modal-content">
 			<h4>Ingresar Alumnos</h4>
-			<form method="POST" action="index.php?r=alumnos" class="col s12">
+			<form method="POST" action="sistema.php?r=alumnos" class="col s12">
 				<div class="row">
 					<div class="input-field col s6">
 						<input id="first_name" type="text" class="validate" name="nombre">

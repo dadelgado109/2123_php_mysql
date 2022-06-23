@@ -1,3 +1,14 @@
+<?php
+
+	@session_start();
+	
+	if(isset($_SESSION['nombre'])){
+
+	}else{
+		header('Location: login.php');
+	}
+
+?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -36,16 +47,16 @@
 				</a>
 				<ul class="right hide-on-med-and-down">
 					<li>
-						<a class="light-blue-text text-darken-4" href="index.php?r=profesores">Profesores</a>
+						<a class="light-blue-text text-darken-4" href="sistema.php?r=profesores">Profesores</a>
 					</li>
 					<li>
-						<a class="light-blue-text text-darken-4" href="index.php?r=tiposCursos">Tipos Cursos</a>
+						<a class="light-blue-text text-darken-4" href="sistema.php?r=tiposCursos">Tipos Cursos</a>
 					</li>
 					<li>
-						<a class="light-blue-text text-darken-4" href="index.php?r=cursos">Cursos</a>
+						<a class="light-blue-text text-darken-4" href="sistema.php?r=cursos">Cursos</a>
 					</li>
 					<li >
-						<a class="light-blue-text text-darken-4" href="index.php?r=alumnos">Alumnos</a>
+						<a class="light-blue-text text-darken-4" href="sistema.php?r=alumnos">Alumnos</a>
 					</li>
 					 <!-- Dropdown Trigger -->
 					<li>
@@ -60,14 +71,14 @@
         <!-- Menu del boton  -->
 		<ul id="dropdown1" class="dropdown-content">
 			<li><a href="#!" class="light-blue-text text-darken-4">Perfil</a></li>
-			<li><a href="#!" class="light-blue-text text-darken-4">Salir</a></li>
+			<li><a href="logout.php" class="light-blue-text text-darken-4">Salir</a></li>
 			<li class="divider"></li>
 			<li><a href="#!" class="light-blue-text text-darken-4">Usuarios</a></li>
 		</ul>
 
 		<main>
 			<div class="container">
-
+				<h1><?=$_SESSION['nombre']?></h1>	
 				<?PHP include ("router.php"); ?>
 
 			</div>
@@ -79,10 +90,10 @@
 				<i class="large material-icons">add</i>
 			</a>
 			<ul>
-				<li><a class="btn-floating red" href="index.php?r=profesores"><i class="material-icons">person</i></a></li>
-				<li><a class="btn-floating yellow darken-1" href="index.php?r=tiposCursos"><i class="material-icons">share</i></a></li>
-				<li><a class="btn-floating green" href="index.php?r=cursos"><i class="material-icons">assignment</i></a></li>
-				<li><a class="btn-floating blue" href="index.php?r=alumnos"><i class="material-icons">assignment_ind</i></a></li>
+				<li><a class="btn-floating red" href="sistema.php?r=profesores"><i class="material-icons">person</i></a></li>
+				<li><a class="btn-floating yellow darken-1" href="sistema.php?r=tiposCursos"><i class="material-icons">share</i></a></li>
+				<li><a class="btn-floating green" href="sistema.php?r=cursos"><i class="material-icons">assignment</i></a></li>
+				<li><a class="btn-floating blue" href="sistema.php?r=alumnos"><i class="material-icons">assignment_ind</i></a></li>
 			</ul>
 		</div>
 		      

@@ -61,7 +61,7 @@
 
 ?>
 			<div class="divider"></div>
-			<form method="POST" action="index.php?r=profesores" class="col s12">
+			<form method="POST" action="sistema.php?r=profesores" class="col s12">
 				<h3>Quiere borrar al profesor ?</h3>
 				<input type="hidden" name="documento" value="<?=$idRegistro?>" >
 				<button class="btn waves-effect waves-light" type="submit" name="accion" value="borrar">Aceptar
@@ -82,7 +82,7 @@
 			$objProfesores->cargar($idRegistro);
 ?>
 			<div class="divider"></div>
-			<form method="POST" action="index.php?r=profesores" class="col s12">
+			<form method="POST" action="sistema.php?r=profesores" class="col s12">
 				<h3>Editar Profesor </h3>
 				<input type="hidden" name="documento" value="<?=$idRegistro?>" >
 				<input type="hidden" name="accion" value="guardar">
@@ -138,10 +138,10 @@
 				<td><?=$profesores['fechaNacimiento']?></td>
 				<td>
 					<div class="right">
-						<a class="waves-effect waves-light btn" href="index.php?r=profesores&id=<?=$profesores['documento']?>&a=editar">
+						<a class="waves-effect waves-light btn" href="sistema.php?r=profesores&id=<?=$profesores['documento']?>&a=editar">
 							<i class="material-icons">create</i>
 						</a>
-						<a class="waves-effect waves-light btn red" href="index.php?r=profesores&id=<?=$profesores['documento']?>&a=borrar">
+						<a class="waves-effect waves-light btn red" href="sistema.php?r=profesores&id=<?=$profesores['documento']?>&a=borrar">
 							<i class="material-icons">delete</i>
 						</a>
 					</div>	
@@ -156,7 +156,7 @@
 			<tr>
 				<td colspan="6">
 					<ul class="pagination right">
-						<li class="waves-effect"><a href="index.php?r=profesores&p=<?=$arrayPagina['paginaAtras']?>"><i class="material-icons">chevron_left</i></a></li>
+						<li class="waves-effect"><a href="sistema.php?r=profesores&p=<?=$arrayPagina['paginaAtras']?>"><i class="material-icons">chevron_left</i></a></li>
 <?php
 					for($i = 1; $i<=$arrayPagina['totalPagina'] ; $i++){
 						$activo = "waves-effect";
@@ -164,11 +164,11 @@
 							$activo = "active";
 						}						
 ?>
-						<li class="<?=$activo?>"><a href="index.php?r=profesores&p=<?=$i?>"><?=$i?></a></li>
+						<li class="<?=$activo?>"><a href="sistema.php?r=profesores&p=<?=$i?>"><?=$i?></a></li>
 <?php
 					}
 ?>
-				    	<li class="waves-effect"><a href="index.php?r=profesores&p=<?=$arrayPagina['paginaSiguiente']?>"><i class="material-icons">chevron_right</i></a></li>
+				    	<li class="waves-effect"><a href="sistema.php?r=profesores&p=<?=$arrayPagina['paginaSiguiente']?>"><i class="material-icons">chevron_right</i></a></li>
 					</ul>
 				</td>
 			</tr>
@@ -190,7 +190,7 @@
 	<div id="modal1" class="modal modal-fixed-footer">
 		<div class="modal-content">
 			<h4>Ingresar Alumnos</h4>
-			<form method="POST" action="index.php?r=profesores" class="col s12">
+			<form method="POST" action="sistema.php?r=profesores" class="col s12">
 				<div class="row">
 					<div class="input-field col s6">
 						<input id="first_name" type="text" class="validate" name="nombre">

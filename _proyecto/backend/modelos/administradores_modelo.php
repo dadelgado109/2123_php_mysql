@@ -43,6 +43,16 @@ class administradores_modelo extends generico_modelo {
 
 	}
 
+	public function validarLogin($nombre, $clave){
+
+		$sql = "SELECT * FROM administradores WHERE nombre = :nombre AND clave = :clave; ";
+		$arrayDatos = array("nombre"=>$nombre, "clave"=>md5($clave));
+		$lista 		= $this->ejecutarConsulta($sql, $arrayDatos);
+		return $lista;
+
+	}
+
+
 	public function ingresar(){
 
 		if($this->nombre == ""){
@@ -64,8 +74,10 @@ class administradores_modelo extends generico_modelo {
 		$this->persistirConsulta($sqlInsert, $arrayInsert);
 		$retorno = array("estado"=>"Ok", "mensaje"=>"Se ingreso el administradore correctamente" );
 		return $retorno;
-
 	}
+
+
+
 
 	public function guardar(){
 
@@ -73,73 +85,51 @@ class administradores_modelo extends generico_modelo {
 			$retorno = array("estado"=>"Error", "mensaje"=>"El nombre no puede ser vacio" );
 			return $retorno;
 		}
-		if($this->apellidos == ""){
-			$retorno = array("estado"=>"Error", "mensaje"=>"El apellido no puede ser vacio" );
-			return $retorno;
-		}
-		$edad = 0;
-		$fechaHoy   = new DateTime(date("Y-m-d")); 
-		$fechaNac   = new DateTime($this->fechaNacimiento); 
-		// Fecha que traigo 
-		$diferencia = $fechaHoy->diff($fechaNac);              
-		if($diferencia->days < 6570){
-			$retorno = array("estado"=>"Error", "mensaje"=>"El el alumnos es menor de edad" );
-			return $retorno;
-		}
-		$arrayTipoDocu = $this->listaTipoDocumuento();
-		if(!in_array($this->tipoDocumento,  $arrayTipoDocu)){
-			$retorno = array("estado"=>"Error", "mensaje"=>"El tipo de documento no es valido" );
-			return $retorno;
-		}
-
+		
 		$sqlInsert = "UPDATE alumnos SET
-						nombre			= :nombre,
-						apellidos		= :apellidos,
-						tipoDocumento 	= :tipoDocumento,
-						fechaNacimiento = :fechaNacimiento 
-						WHERE documento = :documento;";
+						nombre	= :nombre,
+						mail	= :mail,
+						WHERE id = :id;";
 
 		$arrayInsert = array(
-				"documento" 		=> $this->documento,
-				"nombre" 			=> $this->nombre,
-				"apellidos" 		=> $this->apellidos,
-				"tipoDocumento" 	=> $this->tipoDocumento,
-				"fechaNacimiento" 	=> $this->fechaNacimiento
+				"id" 		=> $this->id,
+				"nombre" 	=> $this->nombre,
+				"mail" 		=> $this->mail
 			);
 		$this->persistirConsulta($sqlInsert, $arrayInsert);
-		$retorno = array("estado"=>"Ok", "mensaje"=>"Se guardo el alumno correctamente" );
+		$retorno = array("estado"=>"Ok", "mensaje"=>"Se guardo el administador  correctamente" );
 		return $retorno;
 
 	}
 
-	public function cargar($documento){
+	public function cargar($id){
 
-		if($documento == ""){
+		if($id == ""){
 			$retorno = array("estado"=>"Error", "mensaje"=>"El documento no puede ser vacio" );
 			return $retorno;
 		}
-		$sql = "SELECT * FROM alumnos WHERE documento = :documento";
+		$sql = "SELECT * FROM administrador WHERE id = :id";
 		$arraySQL = array("documento" => $documento);
 		$lista 	= $this->ejecutarConsulta($sql, $arraySQL);
 
-		$this->documento 		= $lista[0]['documento'];
-		$this->nombre 			= $lista[0]['nombre'];
-		$this->apellidos 		= $lista[0]['apellidos'];
-		$this->tipoDocumento 	= $lista[0]['tipoDocumento'];
-		$this->fechaNacimiento 	= $lista[0]['fechaNacimiento'];
+		$this->id 		= $lista[0]['id'];
+		$this->nombre 	= $lista[0]['nombre'];
+		$this->mail 	= $lista[0]['mail'];
 
 	}
 
 	public function borrar(){
 
 		//$sql = "DELETE FROM alumnos WHERE documento = :documento";
-		$sql = "UPDATE alumnos SET estado = 0 WHERE documento = :documento";
-		$arraySQL = array("documento"=>$this->documento);
+		$sql = "UPDATE alumnos SET estado = 0 WHERE id = :id";
+		$arraySQL = array("id"=>$this->id);
 		$this->persistirConsulta($sql, $arraySQL);
-		$retorno = array("estado"=>"Ok", "mensaje"=>"Se borro el alumno" );
+		$retorno = array("estado"=>"Ok", "mensaje"=>"Se borro el Administrador" );
 		return $retorno;
 
 	}
+
+
 
 
 	public function listar($filtros = array()){

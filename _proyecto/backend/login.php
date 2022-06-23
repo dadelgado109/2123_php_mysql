@@ -1,7 +1,27 @@
 <?php
 
+	require_once("modelos/administradores_modelo.php");
 
+	$estado  =  "";
+	$usuario = isset($_POST['nombre'])?$_POST['nombre']:"";  
+	$clave 	 = isset($_POST['clave'])?$_POST['clave']:"";
 
+	if($usuario != ""  && $clave != ""){
+
+		$objAdministrdores = new administradores_modelo;
+		$respuesta = $objAdministrdores->validarLogin($usuario,$clave);		
+		if(isset($respuesta[0]['id']) && $respuesta[0]['id'] != ""){
+
+			@session_start();
+			$_SESSION['fecha'] = date("Y-m-a");		
+			$_SESSION['nombre'] = $respuesta[0]['nombre'];
+			$_SESSION['mail'] = $respuesta[0]['mail'];
+			header('Location: sistema.php');
+
+		}else{
+			$estado = "Error";
+		}
+	}
 
 ?>
 
@@ -49,7 +69,14 @@
 					<h1 class="center-align">Login</h1>
 				</div>
 				<div>
-					<form method="POST" action="index.php?r=alumnos" class="col s12">
+					<?PHP if($estado == "Error"){ ?>
+						<div class="red lighten-4 valign-wrapper" style="height:70px">
+							<h5 class="center-align" style="width:100%">
+								Error en el usuario y/o clave
+							</h5>
+						</div>
+					<?PHP } ?>
+					<form method="POST" action="login.php" class="col s12">
 						<div class="row">
 							<div class="input-field col s12 m12 l6 offset-l3">
 								<input id="first_name" type="text" class="validate" name="nombre">
