@@ -11,8 +11,6 @@
 
 		$ruta = $_GET['r'];
 
-		echo("El parametro es:".$ruta);
-
 		if($ruta == "alumnos"){
 			include("vistas/alumnos.php");
 		}

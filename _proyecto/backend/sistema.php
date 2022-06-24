@@ -78,9 +78,7 @@
 
 		<main>
 			<div class="container">
-				<h1><?=$_SESSION['nombre']?></h1>	
 				<?PHP include ("router.php"); ?>
-
 			</div>
 		</main>
 
