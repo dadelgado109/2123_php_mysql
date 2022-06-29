@@ -7,11 +7,13 @@ class generico_modelo {
 
     protected function ejecutarConsulta($sql, $arraySQL){
 
-		// String conexion a la base de datos
-		$srtConexion 	= "mysql:host=localhost;dbname=phpmysql";
+		include("configuracion/configuracion.php");
+
+		$srtConexion 	= "mysql:".$DATABASE['host']."=localhost;dbname=".$DATABASE['database'];
 		// Credenciales
-		$usuario 		= "root";
-		$clave 			= "";
+		$usuario 		= $DATABASE['user'];
+		$clave 			= $DATABASE['password'];
+
 		$options = [
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 			PDO::ATTR_CASE => PDO::CASE_NATURAL,
@@ -29,10 +31,12 @@ class generico_modelo {
 	protected function persistirConsulta($sqlInsert, $arrayInsert){
 
 		// String conexion a la base de datos
-		$srtConexion 	= "mysql:host=localhost;dbname=phpmysql";
+		include("configuracion/configuracion.php");
+
+		$srtConexion 	= "mysql:".$DATABASE['host']."=localhost;dbname=".$DATABASE['database'];
 		// Credenciales
-		$usuario 		= "root";
-		$clave 			= "";
+		$usuario 		= $DATABASE['user'];
+		$clave 			= $DATABASE['password'];
 		$options = [
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 			PDO::ATTR_CASE => PDO::CASE_NATURAL,

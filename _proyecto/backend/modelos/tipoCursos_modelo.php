@@ -20,6 +20,28 @@ class tipoCursos_modelo extends generico_modelo{
 
 	}
 
+	public function ingresar(){
+
+		if($this->nombre == ""){
+			$retorno = array("estado"=>"Error", "mensaje"=>"El nombre no puede ser vacio" );
+			return $retorno;
+		}
+
+		$sqlInsert = "INSERT tiposcursos SET
+						nombre 		= :nombre,
+						descripcion	= :descripcion,
+						estado		= 1 ;";
+
+		$arrayInsert = array(
+			"nombre" 		=> $this->nombre,
+			"descripcion" 	=> $this->descripcion
+		);
+		$this->persistirConsulta($sqlInsert, $arrayInsert);
+		$retorno = array("estado"=>"Ok", "mensaje"=>"Se ingreso el tipo de curso correctamente" );
+		return $retorno;
+
+	}
+
     public function cargar($idTipoCurso){
 
 		if($idTipoCurso == ""){
@@ -36,8 +58,31 @@ class tipoCursos_modelo extends generico_modelo{
 
 	}
 
-    public function borrar(){
 
+	public function guardar(){
+
+		if($this->nombre == ""){
+			$retorno = array("estado"=>"Error", "mensaje"=>"El nombre no puede ser vacio" );
+			return $retorno;
+		}
+	
+		$sqlUpdate = "UPDATE tiposcursos SET
+						nombre			= :nombre,
+						descripcion		= :descripcion
+						WHERE idTipoCurso = :idTipoCurso;";
+
+		$arrayUpdate = array(
+			"idTipoCurso" 	=> $this->idTipoCurso,
+			"nombre" 		=> $this->nombre,
+			"descripcion" 	=> $this->descripcion
+		);
+		$this->persistirConsulta($sqlUpdate, $arrayUpdate);
+		$retorno = array("estado"=>"Ok", "mensaje"=>"Se guardo el tipo de curso correctamente" );
+		return $retorno;
+
+	}
+
+    public function borrar(){
 
 		$sql = "UPDATE tiposcursos SET estado = 0 WHERE idTipoCurso = :idTipoCurso";
 		$arraySQL = array("idTipoCurso"=>$this->idTipoCurso);

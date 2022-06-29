@@ -4,6 +4,20 @@
 
 	$objTipoCurso = new tipoCursos_modelo();
 	
+
+	if(isset($_POST['accion']) && $_POST['accion'] == "ingresar"){
+		// En caso que la accion sera ingresar procedemos a ingresar el registro
+		$objTipoCurso->constructor();
+		$error = $objTipoCurso->ingresar();
+	}
+
+	if(isset($_POST['accion']) && $_POST['accion'] == "guardar"){
+
+		// En caso que la accion sera ingresar procedemos a ingresar el registro
+		$objTipoCurso->constructor();
+		$error = $objTipoCurso->guardar();
+
+	}
 	if(isset($_POST['accion']) && $_POST['accion'] == "borrar"){
 
 		$idTipoCurso = isset($_POST['idTipoCurso'])?$_POST['idTipoCurso']:"";
@@ -13,6 +27,7 @@
 	}
 
 
+
 	$arrayFiltro 	= array("pagina" => "1");
 	if(isset($_GET['p']) && !Empty($_GET['p']) && $_GET['p'] != ""){
 		$arrayFiltro["pagina"] = $_GET['p'];
@@ -20,7 +35,7 @@
 	$arrayPagina 	= $objTipoCurso->paginador($arrayFiltro["pagina"]);
 	$listaTipoCurso = $objTipoCurso->listar($arrayFiltro);
 
-	print_r($listaTipoCurso);
+
 
 ?>
 <div>
@@ -61,36 +76,66 @@
 			<div class="divider"></div>
 <?PHP } ?>
 
+<?PHP 
+		if(isset($_GET['a']) && $_GET['a'] == "editar" && isset($_GET['id']) && $_GET['id'] != ""){ 
+			$idRegistro = isset($_GET['id'])?$_GET['id']:"";
+			$objTipoCurso->cargar($idRegistro);
+?>
+			<div class="divider"></div>
+			<form method="POST" action="sistema.php?r=tiposCursos" class="col s12">
+				<h3>Editar Tipo de curso </h3>
+				<input type="hidden" name="idTipoCurso" value="<?=$idRegistro?>" >
+				<input type="hidden" name="accion" value="guardar">
+				<div class="row">
+					<div class="input-field col s12">
+						<input id="first_name" type="text" class="validate" name="nombre" value="<?=$objTipoCurso->obtenerNombre()?>">
+						<label for="first_name">Nombre</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+						<textarea id="descripcion" class="materialize-textarea" name="descripcion"><?=$objTipoCurso->obtenerDescripcion()?></textarea>
+					 	<label for="descripcion">Descripcion</label>
+					</div>>
+				</div>				
+				<button class="btn waves-effect waves-light" type="submit">Guardar
+					<i class="material-icons right">send</i>
+				</button>
+			</form>
+			<br><br>
+			<div class="divider"></div>
+<?PHP } ?>
+		<a class="waves-effect waves-light btn modal-trigger right" href="#modal1">Ingresar</a>
+		<br><br>
 		<table class="striped">
-		<thead>
-			<tr class="light-blue lighten-3">
-				<th>Id</th>
-				<th>Nombre</th>
-				<th>Descripcion</th>
-				<th class="center-align" style="width: 130px;" >Acciones</th>
-			</tr>
-		</thead>
-		<tbody>
+			<thead>
+				<tr class="light-blue lighten-3">
+					<th>Id</th>
+					<th>Nombre</th>
+					<th>Descripcion</th>
+					<th class="center-align" style="width: 130px;" >Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
 
 <?php
 			foreach($listaTipoCurso as $tipoCurso){
 ?>
-			<tr>
-				<td><?=$tipoCurso['idTipoCurso']?></td>
-				<td><?=$tipoCurso['nombre']?></td>
-				<td><?=$tipoCurso['descripcion']?></td>
-				<td>
-					<div class="right">
-						<a class="waves-effect waves-light btn" href="sistema.php?r=tiposCursos&id=<?=$tipoCurso['idTipoCurso']?>&a=editar">
-							<i class="material-icons">create</i>
-						</a>
-						<a class="waves-effect waves-light btn red" href="sistema.php?r=tiposCursos&id=<?=$tipoCurso['idTipoCurso']?>&a=borrar">
-							<i class="material-icons">delete</i>
-						</a>
-					</div>	
-				</td>
-			</tr>
-			
+				<tr>
+					<td><?=$tipoCurso['idTipoCurso']?></td>
+					<td><?=$tipoCurso['nombre']?></td>
+					<td><?=$tipoCurso['descripcion']?></td>
+					<td>
+						<div class="right">
+							<a class="waves-effect waves-light btn" href="sistema.php?r=tiposCursos&id=<?=$tipoCurso['idTipoCurso']?>&a=editar">
+								<i class="material-icons">create</i>
+							</a>
+							<a class="waves-effect waves-light btn red" href="sistema.php?r=tiposCursos&id=<?=$tipoCurso['idTipoCurso']?>&a=borrar">
+								<i class="material-icons">delete</i>
+							</a>
+						</div>	
+					</td>
+				</tr>
 
 <?PHP
 			}
@@ -123,39 +168,18 @@
 	<!-- Modal Structure -->
 	<div id="modal1" class="modal modal-fixed-footer">
 		<div class="modal-content">
-			<h4>Ingresar Alumnos</h4>
-			<form method="POST" action="sistema.php?r=alumnos" class="col s12">
+			<h4>Ingresar Tipos de curso</h4>
+			<form method="POST" action="sistema.php?r=tiposCursos" class="col s12">
 				<div class="row">
-					<div class="input-field col s6">
+					<div class="input-field col s12">
 						<input id="first_name" type="text" class="validate" name="nombre">
 						<label for="first_name">Nombre</label>
 					</div>
-					<div class="input-field col s6">
-						<input id="last_name" type="text" class="validate" name="apellidos">
-						<label for="last_name">Apellido</label>
-					</div>
 				</div>
 				<div class="row">
-					<div class="input-field col s4">
-						<input id="documento" type="number" class="validate" name="documento">
-					 	<label for="documento">Documento</label>
-					</div>
-					<div class="input-field col s4">
-						<select id="tipoDocumento" name="tipoDocumento" >
-							<option value="" disabled selected>Seleccione una opcion</option>
-<?php
-							foreach($listaTiposDocu as $tipoDocumento){
-?>
-							<option value="<?=$tipoDocumento?>"><?=$tipoDocumento?></option>
-<?php
-							}
-?>
-						</select>
-						<label>Tipo Documento</label>
-					</div>
-					<div class="input-field col s4">
-						<input id="fechaNacimiento" type="date" class="validate" name="fechaNacimiento">
-						<label for="fechaNacimiento">Fecha Nacimiento</label>
+					<div class="input-field col s12">
+						<textarea id="descripcion" class="materialize-textarea" name="descripcion"></textarea>
+					 	<label for="descripcion">Descripcion</label>
 					</div>
 				</div>
 				<input type="hidden" name="accion" value="ingresar">
