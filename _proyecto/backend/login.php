@@ -9,7 +9,11 @@
 	if($usuario != ""  && $clave != ""){
 
 		$objAdministrdores = new administradores_modelo;
-		$respuesta = $objAdministrdores->validarLogin($usuario,$clave);		
+		print_r($clave);
+		$respuesta = $objAdministrdores->validarLogin($usuario,$clave);	
+
+		print_r($respuesta);
+
 		if(isset($respuesta[0]['id']) && $respuesta[0]['id'] != ""){
 
 			@session_start();

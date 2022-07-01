@@ -90,6 +90,14 @@ $arraySQL[] = "CREATE TABLE `alumnos_cursos` (
 )";
 
 $arraySQL[] = "
+INSERT INTO administradores SET 
+	nombre = 'admin',
+	mail = 'admin@admin.com',
+	clave = 'fbc71ce36cc20790f2eeed2197898e71',
+	estado = 1;
+";
+
+$arraySQL[] = "
 		INSERT INTO `profesores` VALUES ('123456897','Maxi','Gomez','1985-10-19',1),('23554684','Beatriz','Gonzales','1960-01-13',1),('3326224','Sofia','Carrasco','2001-11-09',1),('3352145','Kiko','Gonzales','1990-06-08',1),('4444444','Damian','Delgado','1987-10-09',1),('45324325233','Alvaro','Ortega','1952-06-21',1),('456132','Ricardo','Fernandez','1998-06-14',1),('45678132','Nicola','Rotundo','1980-05-18',1),('5412156','Luis','Suarez','1985-06-21',0),('5464789152','Carolina','Gonzales','1996-06-14',1),('6666','Ivana','Moreno','1988-10-04',1),('6784512','Ingred','Delgado','2000-03-15',1);
 ";
 

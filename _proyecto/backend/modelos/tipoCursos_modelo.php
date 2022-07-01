@@ -5,14 +5,14 @@ require_once("modelos/generico_modelo.php");
 class tipoCursos_modelo extends generico_modelo{
 
 
-    protected $idTipoCurso;
+	protected $idTipoCurso;
 
-    protected $nombre;
+	protected $nombre;
 
-    protected $descripcion;
+	protected $descripcion;
 
 
-    public function constructor(){
+	public function constructor(){
 
 		$this->idTipoCurso  = $this->validarPost('idTipoCurso');
 		$this->nombre 		= $this->validarPost('nombre');
@@ -42,7 +42,7 @@ class tipoCursos_modelo extends generico_modelo{
 
 	}
 
-    public function cargar($idTipoCurso){
+	public function cargar($idTipoCurso){
 
 		if($idTipoCurso == ""){
 			$retorno = array("estado"=>"Error", "mensaje"=>"El id no puede ser vacio" );
@@ -82,7 +82,7 @@ class tipoCursos_modelo extends generico_modelo{
 
 	}
 
-    public function borrar(){
+	public function borrar(){
 
 		$sql = "UPDATE tiposcursos SET estado = 0 WHERE idTipoCurso = :idTipoCurso";
 		$arraySQL = array("idTipoCurso"=>$this->idTipoCurso);
@@ -92,19 +92,19 @@ class tipoCursos_modelo extends generico_modelo{
 
 	}
 
-    public function obtenerIdTipoCursos(){
-        return $this->idTipoCurso;
-    }
-    public function obtenerNombre(){
-        return $this->nombre;
-    }
-    public function obtenerDescripcion(){
-        return $this->descripcion;
-    }
+	public function obtenerIdTipoCursos(){
+		return $this->idTipoCurso;
+	}
+	public function obtenerNombre(){
+		return $this->nombre;
+	}
+	public function obtenerDescripcion(){
+		return $this->descripcion;
+	}
 
-    public function listar($filtros = array()){
+	public function listar($filtros = array()){
 
-        $sql = "SELECT * FROM tiposcursos WHERE estado = 1";
+		$sql = "SELECT * FROM tiposcursos WHERE estado = 1";
 		$arrayDatos = array();
 
 		if(isset($filtros['pagina']) && $filtros['pagina'] != ""){
@@ -121,9 +121,20 @@ class tipoCursos_modelo extends generico_modelo{
 		$lista 	= $this->ejecutarConsulta($sql, $arrayDatos);
 		return $lista;
 
-    }
+	}
 
-    public function totalRegistros(){
+	public function listarSelect(){
+
+		$sql = "SELECT idTipoCurso, nombre FROM tiposcursos WHERE estado = 1";
+		$arrayDatos = array();
+		$sql .= " ORDER BY idTipoCurso";	
+		
+		$lista 	= $this->ejecutarConsulta($sql, $arrayDatos);
+		return $lista;
+
+	}
+
+	public function totalRegistros(){
 
 		$sql = "SELECT count(*) AS total FROM tiposcursos";
 		$arrayDatos = array();

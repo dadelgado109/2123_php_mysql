@@ -172,6 +172,18 @@ class profesores_modelo extends generico_modelo{
 
 	}
 
+	public function listarSelect($filtros = array()){
+
+		$sql = "SELECT  documento, 
+						CONCAT(nombre, ' ', apellidos) as nombreCompleto
+					 FROM profesores WHERE estado = 1 ";
+		$arrayDatos = array();
+		$sql .= " ORDER BY documento ;";	
+		$lista 	= $this->ejecutarConsulta($sql, $arrayDatos);
+		return $lista;
+
+	}
+
 	public function totalRegistros(){
 
 		$sql = "SELECT count(*) AS total FROM profesores";
