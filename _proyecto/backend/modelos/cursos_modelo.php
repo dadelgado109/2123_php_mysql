@@ -141,9 +141,9 @@ class cursos_modelo extends generico_modelo{
 					imagen
 				FROM cursos c
 				INNER JOIN tiposcursos t ON t.idTipoCurso = c.idTipoCurso
-				INNER JOIN profesores p ON p.documento = c.profesores;";
-		$arrayDatos = array();
+				INNER JOIN profesores p ON p.documento = c.profesores";
 
+		$arrayDatos = array();
 		if(isset($filtros['pagina']) && $filtros['pagina'] != ""){
 
 			$pagina = ($filtros['pagina'] - 1) * 10;

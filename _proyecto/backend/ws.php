@@ -6,10 +6,11 @@
 	header('content-type: application/json; charset=utf-8');
 
 
-	$arrayColores = array("Amarillo"=>"#fff408","Rojo"=>"#ff0808","Verde"=>"#31ff08","Azul"=>"#0848ff");	
+	//$arrayColores = array("Amarillo"=>"#fff408","Rojo"=>"#ff0808","Verde"=>"#31ff08","Azul"=>"#0848ff");	
+	//$jsonColores = json_encode($arrayColores);
+	//echo($jsonColores);
 
-	$jsonColores = json_encode($arrayColores);
+	include("webServices/controlador_gral.php");
 
-	echo($jsonColores);
 
 ?>
