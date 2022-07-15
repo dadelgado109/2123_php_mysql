@@ -17,7 +17,6 @@
 		<div class = "container">
 			<h1>Trabajando con js</h1>
 			
-			<form action="index.html" id="idFormulario" method="POST" onsubmit="return validarFormulario()" >
 				<nav id="idNavBarra" style="display:none">
 				    <div class="nav-wrapper">
 						<span id="idSpanRespuesta"> </span>
@@ -30,9 +29,8 @@
 				<br>
 				<input type="number" id="idEdad" name="edad" placeholder="Edad"/>
 				<br>
-				<button class="btn waves-effect waves-light" type="submit" name="action">Enviar
-				</button>
-			</form>
+				<button class="btn waves-effect waves-light" type="submit" name="action" onclick="validarFormulario()">Enviar
+				</button>			
 			<br>
 			<br>
 			<br>
@@ -132,12 +130,12 @@
 				if(nombre.length < 4){
 					document.getElementById("idSpanRespuesta").innerHTML = "El nombre no puede ser menor a 4 letras";
 					document.getElementById("idNavBarra").style.display= "block";
-					return false;
+					//return false;
 				}
 				if(apellido.length < 4){
 					document.getElementById("idSpanRespuesta").innerHTML = "El apellido no puede ser menor a 4 letras";
 					document.getElementById("idNavBarra").style.display= "block";
-					return false;
+					//return false;
 				}
 				/*
 				fetch('http://example.com/movies.json')
@@ -149,23 +147,19 @@
 				//const variable = await fetch('localhost:2020/ws.php?c=listarCursos');
 				//console.log(variable);
 				try{
-					let headers = new Headers();
-					headers.append('Content-Type', 'application/json');
+					
+					const envio 	= {method:"POST", body:'{"pagina":"1"}', headers:{"Content-type": "application/json"}};
+					let url 		= 'http://localhost:2020/ws.php?c=listarCursos';	
+					const option 	= {method:"POST"};
+					const res 		= await fetch(url,option);
+					const respuesta = await res.json();				
 
-					let request = {
-					       headers,
-					       method:'POST',
-					       body: '{"foo":"bar"}' 
-					}
+					console.log(respuesta);
+					
 
-					let url = 'localhost:2020/ws.php?c=listarCursos'
-
-				  	const response = await fetch(url, request);
-				  	// waits until the request completes...
-				  	console.log(response);
-
+				
 				} catch (error) {
-				  console.error(error);
+					console.error(error);
 				}
 				return false;
 

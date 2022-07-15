@@ -1,5 +1,6 @@
 <?php
 
+	require_once("librerias/logs_modelo.php");
 	require_once("modelos/administradores_modelo.php");
 
 	$estado  =  "";
@@ -8,11 +9,10 @@
 
 	if($usuario != ""  && $clave != ""){
 
+		$objLogs 	= new logs_modelo();
 		$objAdministrdores = new administradores_modelo;
-		print_r($clave);
 		$respuesta = $objAdministrdores->validarLogin($usuario,$clave);	
 
-		print_r($respuesta);
 
 		if(isset($respuesta[0]['id']) && $respuesta[0]['id'] != ""){
 
@@ -20,10 +20,18 @@
 			$_SESSION['fecha'] = date("Y-m-a");		
 			$_SESSION['nombre'] = $respuesta[0]['nombre'];
 			$_SESSION['mail'] = $respuesta[0]['mail'];
+
+			$linea = "nombre:".$usuario." - login:ok";
+			$objLogs->guardar("tmp/login.log", $linea);
 			header('Location: sistema.php');
 
 		}else{
+
+			$linea = "nombre:".$usuario." - login:error";
+			$objLogs->guardar("tmp/login.log", $linea);
 			$estado = "Error";
+
+
 		}
 	}
 
