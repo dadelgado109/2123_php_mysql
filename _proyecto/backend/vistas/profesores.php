@@ -40,18 +40,21 @@
 <div>
 	<h2>Profesores</h2>
 	<?PHP if(isset($error['estado']) && $error['estado']=="Error"){ ?>
-		<div class="red valign-wrapper" style="height:70px">
+		<div class="red valign-wrapper" id="divBorrar" style="height:70px">
 			<h5 class="center-align" style="width:100%">
-	<?PHP	print_r($error['mensaje']); ?>
+	<?PHP	print_r($error['mensaje']); ?>		
 			</h5>
+			<button class="red" onclick="borrarDiv('divBorrar')"><i class="material-icons right">cancel</i></button> 
 		</div>
 	<?PHP } ?>
 
 	<?PHP if(isset($error['estado']) && $error['estado']=="Ok"){ ?>
-		<div class="teal lighten-4 valign-wrapper" style="height:70px">
+		<div class="teal lighten-4 valign-wrapper" id="divOk" style="height:70px">
 			<h5 class="center-align" style="width:100%">
 	<?PHP print_r($error['mensaje']); ?>
 			</h5>
+			<button class="teal lighten-4" onclick="borrarDiv('divOk')"><i class="material-icons right">cancel</i></button> 
+			
 		</div>
 	<?PHP } ?>
 
@@ -176,7 +179,15 @@
 		</tbody>
 	</table>
 
+	<script>
+		function borrarDiv(div){
 
+			console.log("borrarDiv");
+			document.getElementById(div).style = "display:none";
+
+
+		}
+	</script>
 
 
 

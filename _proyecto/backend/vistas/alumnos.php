@@ -30,7 +30,7 @@
 		$error = $objAlumnos->guardar();
 
 	}
-
+		
 
 	// Armamos el paginado
 	$arrayFiltro 	= array("pagina" => "1");
@@ -112,7 +112,7 @@ if(isset($_GET['a']) && $_GET['a'] == "borrar"){
 				<div class="row">
 					<div class="input-field col s4">
 						<input id="documento" type="number" class="validate" name="documento" value="<?=$objAlumnos->obtenerDocumento()?>" disabled >
-					 	<label for="documento">Documento</label>
+						 <label for="documento">Documento</label>
 					</div>
 					<div class="input-field col s4">
 						<select id="tipoDocumento" name="tipoDocumento" >
@@ -195,7 +195,7 @@ if(isset($_GET['a']) && $_GET['a'] == "borrar"){
 <?php
 					}
 ?>
-				    	<li class="waves-effect"><a href="sistema.php?r=alumnos&p=<?=$arrayPagina['paginaSiguiente']?>"><i class="material-icons">chevron_right</i></a></li>
+						<li class="waves-effect"><a href="sistema.php?r=alumnos&p=<?=$arrayPagina['paginaSiguiente']?>"><i class="material-icons">chevron_right</i></a></li>
 					</ul>
 				</td>
 			</tr>
@@ -226,7 +226,7 @@ if(isset($_GET['a']) && $_GET['a'] == "borrar"){
 				<div class="row">
 					<div class="input-field col s4">
 						<input id="documento" type="number" class="validate" name="documento">
-					 	<label for="documento">Documento</label>
+						 <label for="documento">Documento</label>
 					</div>
 					<div class="input-field col s4">
 						<select id="tipoDocumento" name="tipoDocumento" >

@@ -11,11 +11,16 @@
 
 
 	if(isset($_POST['accion']) && $_POST['accion'] == "login"){
+
 		$documento = isset($_POST['documento'])?$_POST['documento']:"";
 		$clave 	   = isset($_POST['clave'])?$_POST['clave']:"";
+
 		$respuesta = $objAlumno->login($documento, $clave);
 
 		if($respuesta){
+			@session_start();
+			$_SESSION['documento'] = $documento;
+
 			echo("ESTOY LOGUEADO");
 		}else{
 			echo("ERROR EN EL LOGUEO");
@@ -45,11 +50,12 @@
 
 	$anio = date("Y");
 	$filtros = array('anio' => $anio);
+	if(isset($_POST['action']) && $_POST['action'] == "buscar"){
+		$filtros['buscar'] = $_POST['busqueda'];
+	}
 	$listaCursos = $objCursos->listar($filtros);
 
 	$estado = "";
-
-
 
 
 ?>
@@ -79,20 +85,59 @@
 	<body>
 		<nav>
 			<div class="nav-wrapper">
-				<a href="#!" class="brand-logo"><i class="material-icons">cloud</i>Logo</a>
+				<a href="#!" class="brand-logo">
+					<i class="material-icons">cloud</i>Logo
+				</a>				
 				<ul class="right hide-on-med-and-down">
+					<li>
+<?PHP 			if(isset($_SESSION['documento']) && $_SESSION['documento'] != ""){
+
+ ?>
+						<a >
+						<?=$_SESSION['documento']?>
+						</a>
+					</li>
+<?PHP 
+				}
+?>
 					<li>
 						<a class="modal-trigger" href="#modal1">
 							<i class="material-icons">person</i>
 						</a>
 					</li>
+<?PHP 			if(isset($_SESSION['documento']) && $_SESSION['documento'] != ""){
+
+ ?>
 					<li>
 						<a class="modal-trigger" href="#modalCarrito">
 							<i class="material-icons">add_shopping_cart</i>
 						</a>
 					</li>
+<?PHP 
+				}
+?>
+					<li>
+						<a class="modal-trigger" href="logout.php">
+							<i class="material-icons">exit_to_app</i>
+						</a>
+					</li>
+					<li>
+						<form method="post" action="index.php">
+							<div class="input-field">
+								<input type="hidden" name="action" value="buscar" required>
+								<input id="search" type="search" name="busqueda" required>
+									<label class="label-icon" for="search">
+									<i class="material-icons">search</i>
+								</label>
+								<i class="material-icons">close</i>
+					        </div>
+						</form>
+					</li>
 				</ul>
 			</div>
+			 <div class="nav-wrapper">
+		      
+		    </div>
 		</nav>
 		<div id="modal1" class="modal modal-fixed-footer">
 			<div class="modal-content">
@@ -300,3 +345,5 @@
 				<a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir</a>
 			</div>
 		</div>
+
+

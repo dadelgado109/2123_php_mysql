@@ -73,12 +73,18 @@ class cursos_modelo extends generico_modelo{
 					t.descripcion
 				FROM cursos c
 				INNER JOIN tiposcursos t ON t.idTipoCurso = c.idTipoCurso
-				INNER JOIN profesores p ON p.documento = c.profesores";
+				INNER JOIN profesores p ON p.documento = c.profesores
+					WHERE c.codigo != 0 ";
+		
 		$arrayDatos = array();
-
 		if(isset($filtros['anio']) && $filtros['anio'] != ""){
 
-			$sql .= " WHERE anio = '".$filtros['anio']."' ";
+			$sql .= " AND anio = '".$filtros['anio']."' ";
+		
+		}
+		if(isset($filtros['buscar']) && $filtros['buscar'] != ""){
+
+			$sql .= " AND t.nombre LIKE ('%".$filtros['buscar']."%') ";
 		
 		}
 

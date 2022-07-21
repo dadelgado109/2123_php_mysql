@@ -11,7 +11,7 @@ class ticket_modelo extends generico_modelo {
 
 	public function obtenerBuscarTicket($idCliente){
 		
-		$sql = "Busco el tiker WHERE idCliente = $idCliente AND estado = 'abierto' ORDER BY idTicket DESC LIMIT 1";
+		$sql = "SLECT * FROM tabla WHERE idCliente = $idCliente AND estado = 'abierto' ORDER BY idTicket DESC LIMIT 1";
 		
 		$resultado = $this->ejecutarConsulta($sql, $arrayDatos);
 

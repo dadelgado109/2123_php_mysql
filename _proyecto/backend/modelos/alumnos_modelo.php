@@ -127,20 +127,40 @@ class alumnos_modelo extends generico_modelo {
 			return $retorno;
 		}
 
-		$sqlInsert = "UPDATE alumnos SET
+		if($this->fotos == ""){
+			$sqlInsert = "UPDATE alumnos SET
 						nombre			= :nombre,
 						apellidos		= :apellidos,
 						tipoDocumento 	= :tipoDocumento,
 						fechaNacimiento = :fechaNacimiento 
 						WHERE documento = :documento;";
 
-		$arrayInsert = array(
+			$arrayInsert = array(
 				"documento" 		=> $this->documento,
 				"nombre" 			=> $this->nombre,
 				"apellidos" 		=> $this->apellidos,
 				"tipoDocumento" 	=> $this->tipoDocumento,
 				"fechaNacimiento" 	=> $this->fechaNacimiento
 			);
+		} else{
+			$sqlInsert = "UPDATE alumnos SET
+						nombre			= :nombre,
+						apellidos		= :apellidos,
+						tipoDocumento 	= :tipoDocumento,
+						foto 			= :foto,
+						fechaNacimiento = :fechaNacimiento 
+						WHERE documento = :documento;";
+
+			$arrayInsert = array(
+				"documento" 		=> $this->documento,
+				"nombre" 			=> $this->nombre,
+				"apellidos" 		=> $this->apellidos,
+				"tipoDocumento" 	=> $this->tipoDocumento,
+				"foto" 				=> $this->foto,
+				"fechaNacimiento" 	=> $this->fechaNacimiento
+			);
+		}
+		
 		$this->persistirConsulta($sqlInsert, $arrayInsert);
 		$retorno = array("estado"=>"Ok", "mensaje"=>"Se guardo el alumno correctamente" );
 		return $retorno;
